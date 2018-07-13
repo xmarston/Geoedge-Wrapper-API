@@ -7,10 +7,11 @@ import (
 
 var (
 	NewProjectId string
+	Token        = ""
 )
 
 //func TestAddProject(t *testing.T) {
-//	tk := "388e1fde50eb5883ad7b020fdb42b250"
+//	tk := Token
 //	g := geoedge.Geoedge{}
 //	err := g.Init(tk)
 //	if err != nil {
@@ -36,7 +37,7 @@ var (
 //}
 
 func TestAddMultipleProjects(t *testing.T) {
-	tk := "388e1fde50eb5883ad7b020fdb42b250"
+	tk := Token
 	g := geoedge.Geoedge{}
 	err := g.Init(tk)
 	if err != nil {
@@ -71,7 +72,7 @@ func TestAddMultipleProjects(t *testing.T) {
 }
 
 func TestListProjects(t *testing.T) {
-	tk := "388e1fde50eb5883ad7b020fdb42b250"
+	tk := Token
 	g := geoedge.Geoedge{}
 	err := g.Init(tk)
 	if err != nil {
@@ -88,7 +89,7 @@ func TestListProjects(t *testing.T) {
 }
 
 //func TestGetProject(t *testing.T) {
-//	tk := "388e1fde50eb5883ad7b020fdb42b250"
+//	tk := Token
 //	g := geoedge.Geoedge{}
 //	err := g.Init(tk)
 //	if err != nil {
@@ -105,7 +106,7 @@ func TestListProjects(t *testing.T) {
 //}
 //
 //func TestDeleteProject(t *testing.T) {
-//	tk := "388e1fde50eb5883ad7b020fdb42b250"
+//	tk := Token
 //	g := geoedge.Geoedge{}
 //	err := g.Init(tk)
 //	if err != nil {
