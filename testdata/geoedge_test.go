@@ -3,6 +3,8 @@ package testdata
 import (
 	"testing"
 	"geoedge"
+	"github.com/subosito/gotenv"
+	"os"
 )
 
 var (
@@ -10,34 +12,38 @@ var (
 	Token        = ""
 )
 
-//func TestAddProject(t *testing.T) {
-//	tk := Token
-//	g := geoedge.Geoedge{}
-//	err := g.Init(tk)
-//	if err != nil {
-//		t.Fatal("token not set properly")
-//	}
-//
-//	newProjectParams := map[string]string{
-//		"name":      "이터널 라이트",
-//		"tag":       "http://trk.glispa.com/c/AAAAAAAAAAAAAAAAAAAAAoaFVuSgPrQW/CF?placement=1&m.idfa=%geoedge:idfa%&subid1=asdfasdf",
-//		"auto_scan": "0",
-//		"scan_type": "2",
-//		"locations": "KR",
-//		"emulators": "4",
-//	}
-//	ar, err := g.Get("projects", "POST", newProjectParams, false)
-//	r := g.ParseResponse("new project", ar)
-//	if r == nil {
-//		t.Fatal("add projects method not performed correctly")
-//	} else {
-//		NewProjectId = r.(string)
-//		t.Logf("project_id: %v", r)
-//	}
-//}
+func init() {
+	gotenv.Load("../.env")
+}
+
+func TestAddProject(t *testing.T) {
+	tk := os.Getenv("GEOEDGE_KEY")
+	g := geoedge.Geoedge{}
+	err := g.Init(tk)
+	if err != nil {
+		t.Fatal("token not set properly")
+	}
+
+	newProjectParams := map[string]string{
+		"name":      "이터널 라이트",
+		"tag":       "http://trk.glispa.com/c/AAAAAAAAAAAAAAAAAAAAAoaFVuSgPrQW/CF?placement=1&m.idfa=%geoedge:idfa%&subid1=asdfasdf",
+		"auto_scan": "0",
+		"scan_type": "2",
+		"locations": "KR",
+		"emulators": "4",
+	}
+	ar, err := g.Get("projects", "POST", newProjectParams, false)
+	r := g.ParseResponse("new project", ar)
+	if r == nil {
+		t.Fatal("add projects method not performed correctly")
+	} else {
+		NewProjectId = r.(string)
+		t.Logf("project_id: %v", r)
+	}
+}
 
 func TestAddMultipleProjects(t *testing.T) {
-	tk := Token
+	tk := os.Getenv("GEOEDGE_KEY")
 	g := geoedge.Geoedge{}
 	err := g.Init(tk)
 	if err != nil {
@@ -72,7 +78,7 @@ func TestAddMultipleProjects(t *testing.T) {
 }
 
 func TestListProjects(t *testing.T) {
-	tk := Token
+	tk := os.Getenv("GEOEDGE_KEY")
 	g := geoedge.Geoedge{}
 	err := g.Init(tk)
 	if err != nil {
@@ -88,36 +94,36 @@ func TestListProjects(t *testing.T) {
 	}
 }
 
-//func TestGetProject(t *testing.T) {
-//	tk := Token
-//	g := geoedge.Geoedge{}
-//	err := g.Init(tk)
-//	if err != nil {
-//		t.Fatal("token not set properly")
-//	}
-//
-//	ar, err := g.Get("projects/"+NewProjectId, "GET", nil, false)
-//	r := g.ParseResponse("get project", ar)
-//	if err != nil {
-//		t.Fatal("get project method could not be obtained")
-//	} else {
-//		t.Logf("project settings: %v", r)
-//	}
-//}
-//
-//func TestDeleteProject(t *testing.T) {
-//	tk := Token
-//	g := geoedge.Geoedge{}
-//	err := g.Init(tk)
-//	if err != nil {
-//		t.Fatal("token not set properly")
-//	}
-//
-//	ar, err := g.Get("projects/"+NewProjectId, "DELETE", nil, false)
-//	r := g.ParseResponse("delete projects", ar)
-//	if err != nil {
-//		t.Fatal("delete project method could not be obtained")
-//	} else {
-//		t.Logf("delete project: %v", r)
-//	}
-//}
+func TestGetProject(t *testing.T) {
+	tk := os.Getenv("GEOEDGE_KEY")
+	g := geoedge.Geoedge{}
+	err := g.Init(tk)
+	if err != nil {
+		t.Fatal("token not set properly")
+	}
+
+	ar, err := g.Get("projects/"+NewProjectId, "GET", nil, false)
+	r := g.ParseResponse("get project", ar)
+	if err != nil {
+		t.Fatal("get project method could not be obtained")
+	} else {
+		t.Logf("project settings: %v", r)
+	}
+}
+
+func TestDeleteProject(t *testing.T) {
+	tk := os.Getenv("GEOEDGE_KEY")
+	g := geoedge.Geoedge{}
+	err := g.Init(tk)
+	if err != nil {
+		t.Fatal("token not set properly")
+	}
+
+	ar, err := g.Get("projects/"+NewProjectId, "DELETE", nil, false)
+	r := g.ParseResponse("delete projects", ar)
+	if err != nil {
+		t.Fatal("delete project method could not be obtained")
+	} else {
+		t.Logf("delete project: %v", r)
+	}
+}
