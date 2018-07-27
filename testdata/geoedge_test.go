@@ -9,7 +9,6 @@ import (
 
 var (
 	NewProjectId string
-	Token        = ""
 )
 
 func init() {
@@ -32,50 +31,50 @@ func TestAddProject(t *testing.T) {
 		"locations": "KR",
 		"emulators": "4",
 	}
-	ar, err := g.Get("projects", "POST", newProjectParams, false)
-	r := g.ParseResponse("new project", ar)
-	if r == nil {
+
+	ar, err := g.AddProject(newProjectParams)
+	if err != nil {
 		t.Fatal("add projects method not performed correctly")
 	} else {
-		NewProjectId = r.(string)
-		t.Logf("project_id: %v", r)
+		NewProjectId = ar
+		t.Logf("project_id: %v", ar)
 	}
 }
 
-func TestAddMultipleProjects(t *testing.T) {
-	tk := os.Getenv("GEOEDGE_KEY")
-	g := geoedge.Geoedge{}
-	err := g.Init(tk)
-	if err != nil {
-		t.Fatal("token not set properly")
-	}
-
-	var projects []map[string]string
-	newProjectParams := map[string]string{
-		"name":      "이터널 라이트 v2",
-		"tag":       "http://trk.glispa.com/c/AAAAAAAAAAAAAAAAAAAAAoaFVuSgPrQW/CF?placement=1&m.idfa=%geoedge:idfa%&subid1=asdfasdf",
-		"auto_scan": "0",
-		"scan_type": "2",
-		"locations": "KR",
-		"emulators": "4",
-	}
-	projects = append(projects, newProjectParams)
-	newProjectParams = map[string]string{
-		"name":      "Blades and Rings-ตำนานครูเสด",
-		"tag":       "http://trk.glispa.com/c/AAAAAAAAAAAAAAAAAAAAAlxbVqx1PvYs/CF?placement=1&m.idfa=%geoedge:idfa%&subid1=asdfasdf",
-		"auto_scan": "0",
-		"scan_type": "2",
-		"locations": "TH",
-		"emulators": "7",
-	}
-	projects = append(projects, newProjectParams)
-	ar, err := g.AddMultiProjects(projects)
-	if err != nil {
-		t.Fatal("add multi projects method not performed correctly")
-	} else {
-		t.Logf("projects: %v", ar)
-	}
-}
+//func TestAddMultipleProjects(t *testing.T) {
+//	tk := os.Getenv("GEOEDGE_KEY")
+//	g := geoedge.Geoedge{}
+//	err := g.Init(tk)
+//	if err != nil {
+//		t.Fatal("token not set properly")
+//	}
+//
+//	var projects []map[string]string
+//	newProjectParams := map[string]string{
+//		"name":      "이터널 라이트 v2",
+//		"tag":       "http://trk.glispa.com/c/AAAAAAAAAAAAAAAAAAAAAoaFVuSgPrQW/CF?placement=1&m.idfa=%geoedge:idfa%&subid1=asdfasdf",
+//		"auto_scan": "0",
+//		"scan_type": "2",
+//		"locations": "KR",
+//		"emulators": "4",
+//	}
+//	projects = append(projects, newProjectParams)
+//	newProjectParams = map[string]string{
+//		"name":      "Blades and Rings-ตำนานครูเสด",
+//		"tag":       "http://trk.glispa.com/c/AAAAAAAAAAAAAAAAAAAAAlxbVqx1PvYs/CF?placement=1&m.idfa=%geoedge:idfa%&subid1=asdfasdf",
+//		"auto_scan": "0",
+//		"scan_type": "2",
+//		"locations": "TH",
+//		"emulators": "7",
+//	}
+//	projects = append(projects, newProjectParams)
+//	ar, err := g.AddMultiProjects(projects)
+//	if err != nil {
+//		t.Fatal("add multi projects method not performed correctly")
+//	} else {
+//		t.Logf("projects: %v", ar)
+//	}
+//}
 
 func TestListProjects(t *testing.T) {
 	tk := os.Getenv("GEOEDGE_KEY")
@@ -85,12 +84,11 @@ func TestListProjects(t *testing.T) {
 		t.Fatal("token not set properly")
 	}
 
-	ar, err := g.Get("projects", "GET", nil, false)
-	r := g.ParseResponse("list projects", ar)
+	ar, err := g.ListProjects()
 	if err != nil {
 		t.Fatal("list projects method could not be obtained")
 	} else {
-		t.Logf("list projects: %v", r)
+		t.Logf("list projects: %v", ar)
 	}
 }
 
@@ -102,12 +100,11 @@ func TestGetProject(t *testing.T) {
 		t.Fatal("token not set properly")
 	}
 
-	ar, err := g.Get("projects/"+NewProjectId, "GET", nil, false)
-	r := g.ParseResponse("get project", ar)
+	ar, err := g.GetProject(NewProjectId)
 	if err != nil {
 		t.Fatal("get project method could not be obtained")
 	} else {
-		t.Logf("project settings: %v", r)
+		t.Logf("project settings: %v", ar)
 	}
 }
 
@@ -119,11 +116,10 @@ func TestDeleteProject(t *testing.T) {
 		t.Fatal("token not set properly")
 	}
 
-	ar, err := g.Get("projects/"+NewProjectId, "DELETE", nil, false)
-	r := g.ParseResponse("delete projects", ar)
+	ar, err := g.DeleteProject(NewProjectId)
 	if err != nil {
 		t.Fatal("delete project method could not be obtained")
 	} else {
-		t.Logf("delete project: %v", r)
+		t.Logf("delete project: %v", ar)
 	}
 }
